@@ -25,38 +25,138 @@ body {
     line-height: 1.6;
     color: var(--text-color);
     background-color: var(--light-gray);
-    padding: 20px;
     min-height: 100vh;
     display: flex;
-    justify-content: center;
-    align-items: center;
+    flex-direction: column;
+    margin: 0;
+    padding: 0;
 }
 
 .container {
     width: 100%;
     max-width: 900px;
-    margin: 0 auto;
+    margin: 120px auto 20px;
     background-color: var(--white);
     padding: 30px;
     border-radius: var(--border-radius);
     box-shadow: var(--shadow);
 }
 
-header {
-    text-align: center;
-    margin-bottom: 30px;
+.main-header {
+    background-color: var(--white);
+    box-shadow: var(--shadow);
+    padding: 15px 0;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 100;
+    height: 90px;
+    display: flex;
+    align-items: center;
 }
 
-h1 {
-    font-size: 2.2rem;
-    margin-bottom: 10px;
+.header-content {
+    max-width: 900px;
+    margin: 0 20;
+    width: 100%;
+    padding: 0 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.app-logo {
+    width: 200px;
+    height: auto;
+    transition: var(--transition);
+}
+
+.header-text {
+    text-align: right;
+    flex-grow: 1;
+    padding-right: 20px;
+}
+
+.header-text h1 {
+    margin: 0;
+    font-size: 1.3rem;
     color: var(--primary-color);
-    font-weight: 700;
+    font-weight: 600;
 }
 
 .tagline {
     color: var(--dark-gray);
-    font-size: 1.1rem;
+    font-size: 0.9rem;
+    margin: 2px 0 0;
+}
+
+@media (max-width: 768px) {
+    body {
+        padding: 0;
+    }
+    
+    .container {
+        padding: 20px;
+        margin: 100px 10px 10px;
+        border-radius: 0;
+    }
+    
+    .main-header {
+        padding: 10px 0;
+        height: 80px;
+    }
+    
+    .header-content {
+        padding: 0 15px;
+    }
+    
+    .app-logo {
+        width: 140px;
+    }
+
+    .header-text {
+        padding-right: 10px;
+    }
+    
+    .drop-area {
+        padding: 30px 15px;
+    }
+    
+    .button-group {
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 480px) {
+    .app-logo {
+        width: 120px;
+    }
+    
+    .header-text {
+        padding-right: 5px;
+    }
+    
+    .header-text h1 {
+        font-size: 1.1rem;
+        line-height: 1.2;
+    }
+    
+    .tagline {
+        font-size: 0.75rem;
+    }
+    
+    .drop-icon {
+        font-size: 2.5rem;
+    }
+    
+    .drop-area p {
+        font-size: 1rem;
+    }
+    
+    label[for="fileInput"] {
+        padding: 10px 20px;
+    }
 }
 
 .drop-area {
@@ -259,49 +359,4 @@ footer {
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(10px); }
     to { opacity: 1; transform: translateY(0); }
-}
-
-/* Responsive Styles */
-@media (max-width: 768px) {
-    body {
-        padding: 10px;
-    }
-    
-    .container {
-        padding: 20px;
-    }
-    
-    h1 {
-        font-size: 1.8rem;
-    }
-    
-    .drop-area {
-        padding: 30px 15px;
-    }
-    
-    .button-group {
-        flex-direction: column;
-    }
-}
-
-@media (max-width: 480px) {
-    h1 {
-        font-size: 1.5rem;
-    }
-    
-    .tagline {
-        font-size: 0.9rem;
-    }
-    
-    .drop-icon {
-        font-size: 2.5rem;
-    }
-    
-    .drop-area p {
-        font-size: 1rem;
-    }
-    
-    label[for="fileInput"] {
-        padding: 10px 20px;
-    }
 }

@@ -370,16 +370,11 @@ document.addEventListener('DOMContentLoaded', function () {
             tocYPos += 7;
         });
 
-        // Add a page for emails
-        doc.addPage();
-        yPos = 20;
-
+        // Process each email on a new page
         parsedEmails.forEach((email, index) => {
-            // Add a page break if not the first email and not enough space
-            if (index > 0 && yPos > pageHeight - 40) {
-                doc.addPage();
-                yPos = 20;
-            }
+            // Always start on a new page
+            doc.addPage();
+            yPos = 20;
 
             // Format the date
             const formattedDate = email.date.toLocaleString();
@@ -454,15 +449,6 @@ document.addEventListener('DOMContentLoaded', function () {
             // Handle empty body or no URLs case
             if (formattedLines.length === 0) {
                 formattedLines = doc.splitTextToSize(bodyText, textWidth);
-            }
-
-            // Check if we need a new page for the body
-            const bodyLines = doc.splitTextToSize(bodyText, textWidth);
-
-            // Check if we need a new page for the body
-            if (yPos + Math.min(bodyLines.length, 50) * 5 > pageHeight - 15) {
-                doc.addPage();
-                yPos = 20;
             }
 
             // If body is very long, add it page by page
