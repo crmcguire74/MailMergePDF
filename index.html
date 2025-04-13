@@ -1,0 +1,220 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email to PDF Converter</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        header {
+            text-align: center;
+        }
+        header h1 {
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+        header p {
+            color: #666;
+        }
+        .drop-area {
+            border: 2px dashed #3498db;
+            border-radius: 5px;
+            padding: 40px;
+            text-align: center;
+            margin-bottom: 20px;
+            background-color: #ecf0f1;
+            transition: background-color 0.3s;
+        }
+        .drop-area.highlight {
+            background-color: #d6eaf8;
+        }
+        .drop-icon {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+        .drop-area p {
+            margin-bottom: 10px;
+            font-size: 18px;
+            color: #7f8c8d;
+        }
+        #fileInput {
+            display: none;
+        }
+        label[for="fileInput"] {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #3498db;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        label[for="fileInput"]:hover {
+            background-color: #2980b9;
+        }
+        .file-list-container {
+            margin-top: 20px;
+        }
+        .file-list {
+            border: 1px solid #ddd;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .file-list h3 {
+            margin-top: 0;
+        }
+        .file-items-container {
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        .file-item {
+            padding: 5px;
+            border-bottom: 1px solid #eee;
+        }
+        .file-item:last-child {
+            border-bottom: none;
+        }
+        .status {
+            margin: 20px 0;
+            padding: 10px;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+            min-height: 50px;
+            display: none;
+        }
+        .status.show {
+            display: block;
+        }
+        .progress-container {
+            display: flex;
+            align-items: center;
+        }
+        .progress-bar {
+            width: 100%;
+            background-color: #f1f1f1;
+            height: 20px;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+        .progress {
+            height: 100%;
+            background-color: #4CAF50;
+            border-radius: 5px;
+            width: 0%;
+            transition: width 0.3s;
+        }
+        .button-group {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        .btn.primary {
+            background-color: #2ecc71;
+            color: white;
+        }
+        .btn.primary:hover {
+            background-color: #27ae60;
+        }
+        .btn.secondary {
+            background-color: #95a5a6;
+            color: white;
+        }
+        .btn.secondary:hover {
+            background-color: #7f8c8d;
+        }
+        .btn:disabled {
+            background-color: #95a5a6;
+            cursor: not-allowed;
+        }
+        footer {
+            margin-top: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-envelope-open-text"></i> Email to PDF Converter</h1>
+            <p class="tagline">Convert your .eml files to a single, organized PDF document</p>
+        </header>
+        
+        <div class="drop-area" id="dropArea">
+            <div class="drop-icon">
+                <i class="fas fa-file-upload"></i>
+            </div>
+            <p>Drag & Drop .eml files here</p>
+            <p>OR</p>
+            <input type="file" id="fileInput" multiple accept=".eml">
+            <label for="fileInput">Select Files</label>
+        </div>
+        
+        <div class="file-list-container">
+            <div class="file-list" id="fileList" style="display: none;">
+                <h3><i class="fas fa-list"></i> Selected Files</h3>
+                <div class="file-items-container" id="fileItemsContainer"></div>
+            </div>
+        </div>
+        
+        <div class="status" id="status">
+            <div class="progress-container">
+                <div class="progress-bar">
+                    <div class="progress" id="progress"></div>
+                </div>
+                <div id="progressText">0%</div>
+            </div>
+            <div id="statusText"></div>
+        </div>
+        
+        <div class="button-group">
+            <button id="downloadBtn" class="btn primary" disabled>
+                <i class="fas fa-file-pdf"></i> Generate PDF
+            </button>
+            <button id="clearBtn" class="btn secondary" disabled>
+                <i class="fas fa-trash"></i> Clear Files
+            </button>
+        </div>
+        
+        <footer>
+            <p>Drop .eml files to convert them into a chronologically ordered PDF document</p>
+        </footer>
+    </div>
+    
+    <script type="importmap">
+    {
+        "imports": {
+            "jspdf": "https://cdn.jsdelivr.net/npm/jspdf@2.5.1/+esm"
+        }
+    }
+    </script>
+    <script src="app.js" type="module"></script>
+</body>
+</html>
